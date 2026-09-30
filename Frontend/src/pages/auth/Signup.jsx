@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import Input from '../../components/inputs/input';
 import { ProfilePhotoSelector } from '../../components/inputs/ProfilePhotoSelector';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';  
+import { UserContext } from '../../context/userContext';  
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
 import { uploadImage } from '../../utils/uploadImages';

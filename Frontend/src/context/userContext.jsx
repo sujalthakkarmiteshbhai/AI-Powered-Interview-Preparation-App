@@ -9,6 +9,7 @@ const UserProvider = ({ children }) => {
     const [user,setUser] = useState(null);
     const [loading,setLoading] = useState(true);
 
+    console.error("context running useEffect");
     useEffect(()=>{
     //   if(user) return;
       const accessToken = localStorage.getItem("accessToken");
@@ -38,10 +39,10 @@ const UserProvider = ({ children }) => {
          
         }
          
-        const updateUser = (userData)=>{
+    const updateUser = (userData)=>{
        setUser(userData);
        localStorage.setItem("accessToken",userData.token);
-       setLoading(false);  
+       setLoading(false);   
       }
     return(
        <UserContext.Provider value={{user,loading,updateUser,CleanUser}}>
@@ -53,4 +54,4 @@ const UserProvider = ({ children }) => {
 
 };
 
-export default  UserProvider;
+export default UserProvider;

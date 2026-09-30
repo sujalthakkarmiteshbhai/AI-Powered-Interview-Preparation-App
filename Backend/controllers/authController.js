@@ -106,7 +106,7 @@ const getUserProfile = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
+  console.log("User profile fetched", user);
     res.json(user);
 
   } catch (error) {
@@ -117,6 +117,45 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+// @desc    Google OAuth Login
+// @route   POST /api/auth/google-login
+// @access  Public
+const googleLogin = async (req, res) => {
+  try {
+    const { idToken, name, email, profileImageUrl } = req.body;
 
+    if (!idToken || !email) {
+      return res.status(400).json({ message: "ID Token and Email are required" });
+    }
 
-module.exports = { registerUser, loginUser, getUserProfile };
+    // Check if user exists
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create new user if doesn't exist
+      user = await User.create({
+        name: name || email.split("@")[0],
+        email,
+        profileImageUrl: profileImageUrl || "",
+        password: Math.random().toString(36).slice(-10), // Random password for OAuth users
+      });
+    }
+
+    // Return user data with JWT
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      profileImageUrl: user.profileImageUrl,
+      token: generateToken(user._id),
+    });
+
+  } catch (error) {
+    res.status(500).json({ 
+      message: "Google login failed", 
+      error: error.message 
+    });
+  }
+};
+
+module.exports = { registerUser, loginUser, getUserProfile, googleLogin };

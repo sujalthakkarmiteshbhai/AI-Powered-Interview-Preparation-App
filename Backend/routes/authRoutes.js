@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerUser, loginUser, getUserProfile } = require("../controllers/authController");
+const { registerUser, loginUser, getUserProfile, googleLogin } = require("../controllers/authController");
 const { protect } = require("../middleware/authMiddleware");
 const  upload  = require("../middleware/UploadMiddleware");
 
@@ -8,6 +8,7 @@ const router = express.Router();
 // Auth Routes
 router.post("/register", registerUser); // Register User
 router.post("/login", loginUser); // Login User
+router.post("/google-login", googleLogin); // Google OAuth Login
 router.get("/profile", protect, getUserProfile); // Get User Profile
 
 router.post("/upload-profile-image", upload.single("image"), (req, res) => {

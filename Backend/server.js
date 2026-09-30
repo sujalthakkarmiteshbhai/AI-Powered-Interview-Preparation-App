@@ -24,6 +24,14 @@ app.use(cors({
  allowedHeaders : ["content-Type","Authorization"]
 }));
 
+app.use((req, res, next) => {
+  res.setHeader(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, private"
+  );
+  next();
+});
+
 connectDB();
 
 //Middleware

@@ -48,7 +48,7 @@ axiosInstance.interceptors.response.use(
           ? error.response.data
           : null) ||
         error.message ||
-        "An error occurred";
+        "An error occurred";    
 
       alert(`Error: ${message}`);
     } else if (error.code === "ECONNABORTED") {
