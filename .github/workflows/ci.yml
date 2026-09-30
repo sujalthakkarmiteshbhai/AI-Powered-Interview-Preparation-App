@@ -1,31 +1,37 @@
-name:CI
+name: CI
 
 on:
- push:
+  push:
     branches:
-       - main
- pull_request:
-       branches:
-       - main   
- jobs:
-   build:
-     runs-on:ubuntu-latest
-   
-   steps:
-     - name: Checkout
-     uses: action/checkout@v4
-     - name: Setup Node
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-     - name: Install Backend
+
+      - name: Install Backend
         working-directory: ./Backend
         run: npm ci
+
       - name: Install Frontend
         working-directory: ./Frontend
         run: npm ci
+
       - name: Build Frontend
         working-directory: ./Frontend
         run: npm run build
+
       - name: Build Docker Images
         run: docker compose build
